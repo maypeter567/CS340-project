@@ -2,14 +2,14 @@ import { useContext } from "react";
 import { UserInfoContext } from "../userInfo/UserInfoProvider";
 import { AuthToken, FakeData, Status, User } from "tweeter-shared";
 import { Link } from "react-router-dom";
-import Post from "../statusItem/Post";
+import Post from "./Post";
 import useToastListener from "../toaster/ToastListenerHook";
 
 interface Props {
   value: Status;
 }
 
-const Scroller = (props: Props) => {
+const StatusItem = (props: Props) => {
   const { displayErrorMessage } = useToastListener();
   const { setDisplayedUser, currentUser, authToken } = useContext(UserInfoContext);
 
@@ -81,4 +81,4 @@ const Scroller = (props: Props) => {
   )
 }
 
-export default Scroller
+export default StatusItem
