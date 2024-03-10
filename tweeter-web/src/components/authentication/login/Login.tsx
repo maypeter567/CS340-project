@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthenticationFormLayout from "../AuthenticationFormLayout";
 import { AuthToken, FakeData, User } from "tweeter-shared";
 import useToastListener from "../../toaster/ToastListenerHook";
+import LoginFields from "../LoginFields";
 
 interface Props {
   originalUrl?: string;
@@ -63,6 +64,7 @@ const Login = (props: Props) => {
   const inputFieldGenerator = () => {
     return (
       <>
+      {/* <loginFields/> */}
         <div className="form-floating">
           <input
             type="text"
