@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { UserInfoContext } from "../userInfo/UserInfoProvider";
-import { AuthToken, FakeData, Status, User } from "tweeter-shared";
+import { AuthToken, Status, User } from "tweeter-shared";
 import { useState, useRef, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import useToastListener from "../toaster/ToastListenerHook";
@@ -9,7 +9,13 @@ import StatusItem from "../statusItem/StatusItem";
 export const PAGE_SIZE = 10;
 
 interface Props {
-
+  loadMoreItems: (
+    authToken: AuthToken,
+    displayedUser: User,
+    PAGE_SIZE: 10,
+    lastItem: Status | null
+    ) => Promise<[Status[], boolean]>;
+  description: string;
 }
 
 const InfiniteScroller = (props: Props) => {
@@ -26,8 +32,7 @@ const InfiniteScroller = (props: Props) => {
   const addItems = (newItems: Status[]) =>
     setItems([...itemsReference.current, ...newItems]);
 
-  const { displayedUser, authToken } =
-    useContext(UserInfoContext);
+  const { displayedUser, authToken } = useContext(UserInfoContext);
 
   // Load initial items
   useEffect(() => {
@@ -38,7 +43,7 @@ const InfiniteScroller = (props: Props) => {
   const loadMoreItems = async () => {
     try {
       if (hasMoreItems) {
-        let [newItems, hasMore] = await loadMoreStoryItems(
+        let [newItems, hasMore] = await props.loadMoreItems(
           authToken!,
           displayedUser!,
           PAGE_SIZE,
@@ -51,19 +56,9 @@ const InfiniteScroller = (props: Props) => {
       }
     } catch (error) {
       displayErrorMessage(
-        `Failed to load story items because of exception: ${error}`
+        `Failed to load ${props.description} because of exception: ${error}`
       );
     }
-  };
-
-  const loadMoreStoryItems = async (
-    authToken: AuthToken,
-    user: User,
-    pageSize: number,
-    lastItem: Status | null
-  ): Promise<[Status[], boolean]> => {
-    // TODO: Replace with the result of calling server
-    return FakeData.instance.getPageOfStatuses(lastItem, pageSize);
   };
 
   return (
