@@ -1,8 +1,11 @@
 import { useState } from "react";
 
-const LoginFields = () => {
-  const [alias, setAlias] = useState("");
-  const [password, setPassword] = useState("");
+interface Props {
+  setAlias: (value: React.ChangeEvent<HTMLInputElement>) => void;
+  setPassword: (value: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const LoginFields = (props: Props) => {
 
   return (
     <>
@@ -13,7 +16,7 @@ const LoginFields = () => {
           size={50}
           id="aliasInput"
           placeholder="name@example.com"
-          onChange={(event) => setAlias(event.target.value)}
+          onChange={props.setAlias}
         />
         <label htmlFor="aliasInput">Alias</label>
       </div>
@@ -23,7 +26,7 @@ const LoginFields = () => {
           className="form-control bottom"
           id="passwordInput"
           placeholder="Password"
-          onChange={(event) => setPassword(event.target.value)}
+          onChange={props.setPassword}
         />
         <label htmlFor="passwordInput">Password</label>
       </div>

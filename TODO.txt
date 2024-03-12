@@ -1,5 +1,2 @@
-1. remove duplication in login and register
-2. remove the images for optional login like linked in and google to its own file. found in AuthenticationFormLayout.tsx
-    it was found on line 43 in the demo video
-3. flush out StatusItemScroller.tsx and remove duplicate code in StoryScroller.tsx and FeedScroller.tsx
+
 
