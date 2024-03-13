@@ -1,3 +1,3 @@
-class StatusService {
+export class StatusService {
   
 }

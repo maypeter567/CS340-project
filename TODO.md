@@ -8,4 +8,5 @@
 
 # notes from the video.
 1. move FakeData out of the view
-2. 
+2. Feed and Story items are my task to refactor.
+3. 

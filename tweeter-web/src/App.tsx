@@ -10,10 +10,13 @@ import Login from "./components/authentication/login/Login";
 import Register from "./components/authentication/register/Register";
 import MainLayout from "./components/mainLayout/MainLayout";
 import Toaster from "./components/toaster/Toaster";
-import { AuthToken, User, FakeData, Status } from "tweeter-shared";
 import UserItemScroller from "./components/mainLayout/UserItemScroller";
 import InfiniteScroller from "./components/mainLayout/StatusItemScroller";
 import useUserInfo from "./components/userInfo/UserHook";
+import { FollowingPresenter } from "./presenter/FollowingPresenter"
+import { FollowerPresenter } from "./presenter/FollowerPresenter";
+import { AuthToken, User, Status, FakeData } from "tweeter-shared";
+import { UserItemView } from "./presenter/UserItemPresenter";
 
 const App = () => {
   const { currentUser, authToken } = useUserInfo();
@@ -37,26 +40,6 @@ const App = () => {
 };
 
 const AuthenticatedRoutes = () => {
-  const loadMoreFollowers = async (
-    authToken: AuthToken,
-    user: User,
-    pageSize: number,
-    lastItem: User | null
-  ): Promise<[User[], boolean]> => {
-    // TODO: Replace with the result of calling server
-    return FakeData.instance.getPageOfUsers(lastItem, pageSize, user);
-  };
-
-  const loadMoreFollowees = async (
-    authToken: AuthToken,
-    user: User,
-    pageSize: number,
-    lastItem: User | null
-  ): Promise<[User[], boolean]> => {
-    // TODO: Replace with the result of calling server
-    return FakeData.instance.getPageOfUsers(lastItem, pageSize, user);
-  };
-
   const loadMoreFeedItems = async (
     authToken: AuthToken,
     user: User,
@@ -103,8 +86,7 @@ const AuthenticatedRoutes = () => {
           path="following"
           element={
             <UserItemScroller
-              loadItems={loadMoreFollowees}
-              itemDescription="followees"
+              presenterGenerator={(view: UserItemView) => new FollowingPresenter(view)}
             />
           }
         />
@@ -112,8 +94,7 @@ const AuthenticatedRoutes = () => {
           path="followers"
           element={
             <UserItemScroller
-              loadItems={loadMoreFollowers}
-              itemDescription="followers"
+              presenterGenerator={(view: UserItemView) => new FollowerPresenter(view)}
             />
           }
         />
